@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 10:58:19 by kioulian          #+#    #+#             */
-/*   Updated: 2016/06/05 13:23:18 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/11/07 13:50:33 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,28 @@
 
 void	draw_line(t_vect point1, t_vect point2, t_env *e)
 {
-	float	m;
-	float	c;
-	int		x;
-	int		end;
-	int		y;
-	int		y_end;
+	t_to to;
 
-	x = point1.x;
-	y = point1.y;
-	end = point2.x;
-	y_end = point2.y;
+	to.x = point1.x;
+	to.y = point1.y;
+	to.end = point2.x;
+	to.y_end = point2.y;
 	if (point2.x == point1.x)
-		m = 0.0;
+		to.m = 0.0;
 	else
-		m = (point2.y - point1.y) / (double)(point2.x - point1.x);
-	c = point1.y - m * point1.x;
-	if (point2.x < point1.x)
+		to.m = (point2.y - point1.y) / (double)(point2.x - point1.x);
+	to.c = point1.y - to.m * point1.x;
+	if (point2.x < point1.x && (to.x = point2.x))
+		to.end = point1.x;
+	while (to.x <= to.end && to.m != 0.0)
 	{
-		x = point2.x;
-		end = point1.x;
+		mlx_pixel_put(e->mlx, e->win, to.x, to.m * to.x + to.c, COLOR);
+		to.x++;
 	}
-	while (x <= end && m != 0.0)
+	while (to.y <= to.y_end && to.m == 0.0)
 	{
-		mlx_pixel_put(e->mlx, e->win, x, m * x + c, COLOR);
-		x++;
-	}
-	while (y <= y_end && m == 0.0)
-	{
-		mlx_pixel_put(e->mlx, e->win, x, y, COLOR);
-		y++;
+		mlx_pixel_put(e->mlx, e->win, to.x, to.y, COLOR);
+		to.y++;
 	}
 }
 
@@ -72,8 +64,8 @@ void	draw_rows(t_env *e)
 t_vect	find_below(t_coord *ptr)
 {
 	t_coord	*temp;
-	int			x;
-	int			y;
+	int		x;
+	int		y;
 	t_vect	point;
 
 	x = ptr->x_i;

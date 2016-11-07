@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/25 09:05:45 by kioulian          #+#    #+#             */
-/*   Updated: 2016/06/05 17:13:00 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/11/07 13:47:33 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	save_xy(t_coord **ptr, t_env *e, int z)
 	x_i = e->x;
 	y_i = e->y;
 	x = (x_i * 1 / 1.41421 + z * 1 / 1.41421) * e->width + X_OFFSET;
-	y = (x_i * 1 / 2.44948 + y_i * 0.81649 - z * 1 / 2.44948) * e->width + Y_OFFSET;
+	y = (x_i * 1 / 2.44948 + y_i * 0.81649 - z * 1 / 2.44948)
+		* e->width + Y_OFFSET;
 	if (*ptr == NULL)
 	{
 		*ptr = (t_coord *)malloc(sizeof(t_coord));
@@ -40,8 +41,8 @@ void	save_xy(t_coord **ptr, t_env *e, int z)
 int		compute_coord(t_env *e)
 {
 	t_list	*tmp;
-	tmp = e->list;
 
+	tmp = e->list;
 	while (tmp != NULL)
 	{
 		e->x = 0;
